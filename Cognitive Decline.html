@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Referral pathway - cognitive decline</title>
+<style>
+    body { font-family: Arial, sans-serif; line-height: 1.6; max-width: 980px; margin: 25px auto; padding: 20px; background: #f9f9f9; }
+    h1, h2 { color: #004080; }
+    .section { margin: 30px 0; padding: 18px; background: white; border: 1px solid #ddd; border-radius: 8px; box-shadow: 0 1px 4px rgba(0,0,0,0.08); }
+    table { width: 100%; border-collapse: collapse; }
+    td { padding: 10px 0; vertical-align: top; }
+    .part-title { font-weight: bold; font-size: 1.15em; margin: 18px 0 10px; color: #c00; }
+    .decision-box { background: #fff8e1; border: 1px solid #ffeeba; padding: 16px; margin: 25px 0; border-radius: 6px; }
+    #letter { white-space: pre-wrap; background: #fff; border: 1px solid #bbb; padding: 22px; min-height: 520px; font-size: 12.5pt; font-family: 'Courier New', Courier, monospace; line-height: 1.3; }
+    button { padding: 12px 24px; background: #2e7d32; color: white; border: none; border-radius: 5px; cursor: pointer; font-size: 1.05em; margin-top: 10px; }
+    button:hover { background: #1b5e20; }
+    .hidden { display: none; }
+    .warning { color: #d32f2f; font-size: 0.92em; margin-left: 12px; display: none; font-style: italic; }
+    input[type=text], textarea { width: 100%; padding: 7px; box-sizing: border-box; border: 1px solid #aaa; border-radius: 4px; }
+    textarea { height: 80px; resize: vertical; }
+</style>
+</head>
+<body>
+
+<h1>Referral pathway - cognitive decline</h1>
+<p>Fill in details → generate letter → copy to clipboard. Pastes cleanly with single spacing.</p>
+
+<div class="section">
+    <h2>Cognitive Decline History</h2>
+    <label>Duration (months): <input type="text" id="cog-duration" value="" style="width:70px;" oninput="update()"></label><br><br>
+    
+    <strong>Symptoms:</strong><br>
+    <label><input type="checkbox" id="cog-mem" onclick="update()"> Memory loss</label><br>
+    <label><input type="checkbox" id="cog-plan" onclick="update()"> Difficulty with planning, problem solving and familiar tasks</label><br>
+    <label><input type="checkbox" id="cog-time" onclick="update()"> Confusion with time / place</label><br>
+    <label><input type="checkbox" id="cog-lang" onclick="update()"> Language problem (word finding, following conversation)</label><br>
+    <label><input type="checkbox" id="cog-misplace" onclick="update()"> Misplacing items and retracing steps</label><br><br>
+    
+    <label>HKMoCA: <input type="text" id="mocascore" placeholder="leave blank → Nil" oninput="update()"></label><br><br>
+    
+    <label>PMH / relevant history: <input type="text" id="pmh" placeholder="leave blank → NIL" oninput="update()"></label><br><br>
+    
+    <label>Relevant lab results / investigations:<br>
+    <textarea id="labs" placeholder="e.g. HbA1c 7.2%, TSH 2.1, Vit B12 450..." oninput="update()"></textarea></label>
+</div>
+
+<div class="section">
+    <div class="part-title">Part A – Behavioural / Psychiatric Risk Factors</div>
+    <table>
+        <tr><td>1. History of actual or threats of violence</td>
+            <td><label><input type="radio" name="q1" value="yes" onclick="update()"> Yes</label>
+                <label><input type="radio" name="q1" value="no" checked onclick="update()"> No</label>
+                <span id="warn-q1" class="warning">Please specify at least one detail</span>
+                <div id="q1-sub" class="hidden">
+                    • <input type="checkbox" onclick="update()"> Actual violence<br>
+                    • <input type="checkbox" onclick="update()"> Threats of violence
+                </div>
+            </td></tr>
+        <tr><td>2. Presence of suicidal risk factor</td>
+            <td><label><input type="radio" name="q2" value="yes" onclick="update()"> Yes</label>
+                <label><input type="radio" name="q2" value="no" checked onclick="update()"> No</label>
+                <span id="warn-q2" class="warning">Please specify at least one detail</span>
+                <div id="q2-sub" class="hidden">
+                    • <input type="checkbox" onclick="update()"> Suicidal attempt<br>
+                    • <input type="checkbox" onclick="update()"> Suicidal gesture<br>
+                    • <input type="checkbox" onclick="update()"> Suicidal idea
+                </div>
+            </td></tr>
+        <tr><td>3. Presence of active psychotic symptoms</td>
+            <td><label><input type="radio" name="q3" value="yes" onclick="update()"> Yes</label>
+                <label><input type="radio" name="q3" value="no" checked onclick="update()"> No</label>
+                <span id="warn-q3" class="warning">Please specify at least one detail</span>
+                <div id="q3-sub" class="hidden">
+                    • <input type="checkbox" onclick="update()"> Delusion<br>
+                    • <input type="checkbox" onclick="update()"> Hallucination
+                </div>
+            </td></tr>
+        <tr><td>4. Presence of active affective symptoms</td>
+            <td><label><input type="radio" name="q4" value="yes" onclick="update()"> Yes</label>
+                <label><input type="radio" name="q4" value="no" checked onclick="update()"> No</label>
+                <span id="warn-q4" class="warning">Please specify at least one detail</span>
+                <div id="q4-sub" class="hidden">
+                    • <input type="checkbox" onclick="update()"> Depressive symptoms<br>
+                    • <input type="checkbox" onclick="update()"> Anxiety symptoms<br>
+                    • <input type="checkbox" onclick="update()"> Elation / irritability
+                </div>
+            </td></tr>
+        <tr><td>5. Presence of behavioural symptoms of dementia</td>
+            <td><label><input type="radio" name="q5" value="yes" onclick="update()"> Yes</label>
+                <label><input type="radio" name="q5" value="no" checked onclick="update()"> No</label>
+                <span id="warn-q5" class="warning">Please specify at least one detail</span>
+                <div id="q5-sub" class="hidden">
+                    • <input type="checkbox" onclick="update()"> Frequent temper outbursts<br>
+                    • <input type="checkbox" onclick="update()"> Yelling / screaming<br>
+                    • <input type="checkbox" onclick="update()"> Verbal aggression<br>
+                    • <input type="checkbox" onclick="update()"> Agitation<br>
+                    • <input type="checkbox" onclick="update()"> Disinhibited behaviour
+                </div>
+            </td></tr>
+    </table>
+</div>
+
+<div class="section">
+    <div class="part-title">Part B – Physical / Medical Decline</div>
+    <table>
+        <tr><td>6. Significant decline in physical condition</td>
+            <td><label><input type="radio" name="q6" value="yes" onclick="update()"> Yes</label>
+                <label><input type="radio" name="q6" value="no" checked onclick="update()"> No</label>
+                <span id="warn-q6" class="warning">Please specify at least one detail</span>
+                <div id="q6-sub" class="hidden">
+                    • <input type="checkbox" onclick="update()"> Recurrent falls<br>
+                    • <input type="checkbox" onclick="update()"> Decreased mobility<br>
+                    • <input type="checkbox" onclick="update()"> Feeding problem / decreased oral intake / refusal to eat<br>
+                    • <input type="checkbox" onclick="update()"> Significant weight loss<br>
+                    • <input type="checkbox" onclick="update()"> Recent onset of incontinence<br>
+                    • <input type="checkbox" onclick="update()"> Pain syndrome affecting ADL functioning and Quality of life<br>
+                    • <input type="checkbox" onclick="update()"> Other causes of physical decline affecting self care ability
+                </div>
+            </td></tr>
+        <tr><td>7. Presence of physical illness</td>
+            <td><label><input type="radio" name="q7" value="yes" onclick="update()"> Yes</label>
+                <label><input type="radio" name="q7" value="no" checked onclick="update()"> No</label>
+                <span id="warn-q7" class="warning">Please specify at least one detail</span>
+                <div id="q7-sub" class="hidden">
+                    • <input type="checkbox" onclick="update()"> Stroke within 6 months<br>
+                    • <input type="checkbox" onclick="update()"> Neurological diseases e.g. Parkinson's disease<br>
+                    Other: <input type="text" id="q7-other" placeholder="specify" oninput="update()">
+                </div>
+            </td></tr>
+    </table>
+</div>
+
+<div class="section">
+    <div class="part-title">Part C – Carer / Patient Preference</div>
+    <label><input type="radio" name="partC" value="A" onclick="update()"> The carer or patient felt that Part A (behavioural / psychiatric) problems need to be managed first</label><br><br>
+    <label><input type="radio" name="partC" value="B" onclick="update()"> The carer or patient felt that Part B (physical / medical) problems need to be managed first</label><br><br>
+    <label><input type="radio" name="partC" value="both" checked onclick="update()"> The carer or patient felt that both Part A and Part B problems need attention (no strong preference for which to manage first)</label>
+</div>
+
+<div class="decision-box">
+    <strong>Pathway:</strong> <span id="pathway">—</span><br>
+    <strong>Clinic:</strong> <span id="clinic">—</span>
+</div>
+
+<div class="section">
+    <h2>Generated Referral Letter</h2>
+    <div id="letter">[updates here]</div>
+</div>
+
+<button onclick="copyLetter()">Copy to Clipboard</button>
+
+<script>
+// ... (the entire script remains unchanged from your previous version)
+function hasDetails(q) {
+    const sub = document.getElementById(q + '-sub');
+    if (!sub) return true;
+    const checks = sub.querySelectorAll('input[type=checkbox]:checked');
+    if (checks.length > 0) return true;
+    if (q === 'q7') {
+        const other = document.getElementById('q7-other').value.trim();
+        if (other) return true;
+    }
+    return false;
+}
+function update() {
+    ['q1','q2','q3','q4','q5','q6','q7'].forEach(q => {
+        const yes = document.querySelector(`input[name=${q}][value=yes]:checked`);
+        const sub = document.getElementById(q + '-sub');
+        const warn = document.getElementById('warn-' + q);
+        if (yes) {
+            sub.className = '';
+            warn.style.display = hasDetails(q) ? 'none' : 'inline';
+        } else {
+            sub.className = 'hidden';
+            warn.style.display = 'none';
+        }
+    });
+    let partA = [];
+    let aYes = 0;
+    let highRisk = false;
+    for (let i=1; i<=5; i++) {
+        const yes = document.querySelector(`input[name=q${i}][value=yes]:checked`);
+        const ans = yes ? 'Yes' : 'No';
+        if (yes) {
+            aYes++;
+            if (i===1 || i===2) highRisk = true;
+        }
+        let subs = [];
+        if (yes) {
+            document.querySelectorAll(`#q${i}-sub input[type=checkbox]:checked`).forEach(cb => {
+                let label = cb.nextSibling.textContent.trim();
+                subs.push(` • ${label}`);
+            });
+        }
+        let note = (yes && subs.length === 0) ? ' (details required)' : '';
+        let fullQText = document.querySelector(`input[name=q${i}]`).parentElement.parentElement.previousElementSibling.textContent.trim();
+        let qtext = fullQText.replace(/^\d+\.\s*/, '');
+        let line = `${i}. ${qtext}\t${ans}${note}`;
+        if (subs.length > 0) line += '\n' + subs.join('\n');
+        partA.push(line);
+    }
+    let partB = [];
+    let bYes = 0;
+    for (let i=6; i<=7; i++) {
+        const yes = document.querySelector(`input[name=q${i}][value=yes]:checked`);
+        const ans = yes ? 'Yes' : 'No';
+        if (yes) bYes++;
+        let subs = [];
+        if (yes) {
+            document.querySelectorAll(`#q${i}-sub input[type=checkbox]:checked`).forEach(cb => {
+                let label = cb.nextSibling.textContent.trim();
+                subs.push(` • ${label}`);
+            });
+            if (i===7) {
+                const other = document.getElementById('q7-other').value.trim();
+                if (other) subs.push(` • Other: ${other}`);
+            }
+        }
+        let note = (yes && subs.length === 0) ? ' (details required)' : '';
+        let fullQText = document.querySelector(`input[name=q${i}]`).parentElement.parentElement.previousElementSibling.textContent.trim();
+        let qtext = fullQText.replace(/^\d+\.\s*/, '');
+        let line = `${i}. ${qtext}\t${ans}${note}`;
+        if (subs.length > 0) line += '\n' + subs.join('\n');
+        partB.push(line);
+    }
+    const pc = document.querySelector('input[name=partC]:checked')?.value || 'both';
+    const pcText = pc === 'A' ? 'The carer or patient felt that Part A (behavioural / psychiatric) problems need to be managed first'
+                  : pc === 'B' ? 'The carer or patient felt that Part B (physical / medical) problems need to be managed first'
+                  : 'The carer or patient felt that both Part A and Part B problems need attention (no strong preference for which to manage first)';
+    let pathway = '';
+    let clinic = '';
+    if (aYes > 0) {
+        clinic = 'Psychogeriatric OPD';
+        pathway = '1) Psychogeriatric OPD';
+        if (highRisk && bYes > 0) pathway += ' (high risk + physical)';
+    } else if (bYes > 0) {
+        clinic = 'Geriatric OPD';
+        pathway = '2) Geriatric OPD';
+    } else if (aYes > 0 && bYes > 0 && [3,4,5].some(n => document.querySelector(`input[name=q${n}][value=yes]:checked`))) {
+        clinic = pc === 'A' ? 'Psychogeriatric OPD' : pc === 'B' ? 'Geriatric OPD' : 'Either (per Part C)';
+        pathway = '3) Either guided by Part C';
+    } else {
+        clinic = 'Either Geriatric or Psychogeriatric OPD';
+        pathway = '4) Either – no Yes in A or B';
+    }
+    document.getElementById('pathway').textContent = pathway;
+    document.getElementById('clinic').textContent = clinic;
+    const durRaw = document.getElementById('cog-duration').value.trim();
+    const dur = durRaw ? durRaw : '';
+    const durPhrase = dur ? `the past ${dur} months` : 'months';
+    const mocaRaw = document.getElementById('mocascore').value.trim();
+    const mocaDisplay = mocaRaw ? mocaRaw : 'Nil';
+    const pmhRaw = document.getElementById('pmh').value.trim();
+    const pmhDisplay = pmhRaw ? pmhRaw : 'NIL';
+    const labsRaw = document.getElementById('labs').value.trim();
+    const labsDisplay = labsRaw ? labsRaw : '';
+    let symptoms = [];
+    if (document.getElementById('cog-mem').checked) symptoms.push('- memory loss');
+    if (document.getElementById('cog-plan').checked) symptoms.push('- difficulty with planning, problem solving and familiar tasks');
+    if (document.getElementById('cog-time').checked) symptoms.push('- confusion with time/place');
+    if (document.getElementById('cog-lang').checked) symptoms.push('- language problem (word finding and following conversation)');
+    if (document.getElementById('cog-misplace').checked) symptoms.push('- misplacing items and retracing steps');
+    const sympText = symptoms.length ? symptoms.join('\n') : '[symptoms not selected]';
+    let pmhLine = `PMH: ${pmhDisplay}\n`;
+    let labsLine = labsDisplay ? `Relevant lab results / investigations: ${labsDisplay}\n` : '';
+    const letter = `Dear Colleague,
+I would like to refer the above named patient for specialist assessment due to cognitive decline for ${durPhrase} including:
+${sympText}
+HKMoCA: ${mocaDisplay}
+${pmhLine}${labsLine}Part A – Behavioural / Psychiatric Risk Factors
+${partA.join('\n')}
+Part B – Physical / Medical Decline
+${partB.join('\n')}
+Part C:
+${pcText}
+Thank you for your expert input.`;
+    document.getElementById('letter').textContent = letter;
+}
+function copyLetter() {
+    const txt = document.getElementById('letter').textContent;
+    navigator.clipboard.writeText(txt).then(() => alert('Copied!'))
+                                      .catch(() => alert('Copy failed – select manually.'));
+}
+update();
+</script>
+</body>
+</html>
